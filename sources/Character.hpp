@@ -10,103 +10,48 @@ namespace ariel {
             Point location;
             std::string name;
             int hitPoints;
+            bool inTeam = false;;
             Character(std::string nickname, Point loc): name(nickname), location(loc){};
             Character(){};
-            ~Character(){};
+            virtual ~Character(){};
 
-            bool isAlive(){return true;};
-            double distance(Character* target){return 0;};
-            void hit(int hits){};
+            bool isAlive(){return hitPoints>0;}
+            double distance(Character* target){
+                return this->location.distance(target->getLocation());}
+            void hit(int hits){ this->hitPoints -= hits;}
             std::string getName(){return name;};
             Point getLocation(){return location;};
-            void print(){};
-            friend bool operator==(const Character& a, const Character& b);
+            virtual void print() = 0;
 
 
     };
-    int cowboyHP = 110;
-    int magSize = 6;
-    int bulletHit = 10;
-    int ninjaHit = 40;
-    int oldSpeed = 8;
-    int oldHP = 150;
-    int trainedSpeed = 12;
-    int trainedHP = 120;
-    int youngSpeed = 14;
-    int youngHP = 100;
-
-    class Cowboy : public Character{
-
-        public:
-            Character c;
-            int bulletLeft;
-            Cowboy(std::string nickname, Point loc){
-                this->name = nickname;
-                this->location = loc;
-                this->hitPoints = cowboyHP;
-                this->bulletLeft = magSize;
-            };
-            ~Cowboy(){};
-            void shoot(Character* target){};
-            bool hasBoolets(){return true;};
-            void reload(){};
-    };
-
     class Ninja : public Character{
 
         public:
-            Character c;
             int speed;
-            Ninja(std::string nickname, Point loc){};
+            Ninja(std::string nickname, Point loc): Character(nickname,loc){};
             Ninja(){};
             ~Ninja(){};
 
 
-            void move(Character* target){};
-            void slash(Character* target){};
-    };
-
-    class OldNinja : public Ninja{
-
-        public:
-            Ninja n;
-
-            OldNinja(std::string nickname, Point loc){
-                this->name = nickname;
-                this->location = loc;
-                this->speed = oldSpeed;
-                this->hitPoints = oldHP;
-
+            void move(Character* target){
+                Point::moveTowards(this->location, target->getLocation(), speed);
             };
-            ~OldNinja(){};
-
-    };
-
-    class TrainedNinja : public Ninja{
-
-        public:
-            Ninja n;
-            TrainedNinja(std::string nickname, Point loc){
-                this->name = nickname;
-                this->location = loc;
-                this->speed = trainedSpeed;
-                this->hitPoints = trainedHP;
+            void slash(Character* target){
+                if(this->isAlive() && this->distance(target) < 1){
+                    target->hit(ninjaHit);
+                }
+                else return;
             };
-            ~TrainedNinja(){};
+            void print(){
+                if(this->isAlive()){
+                    std::cout <<"(N)" << name << "," << hitPoints << ",(" << location.x << "," << location.y << ")" << std::endl;
+                }
+                else {
+                    std::cout <<"(N)(" << name << "),(" << location.x << "," << location.y << ")" << std::endl;
+                }
+            }; 
     };
-
-    class YoungNinja : public Ninja{
-
-        public:
-            Ninja n;
-            YoungNinja(std::string nickname, Point loc){
-                this->name = nickname;
-                this->location = loc;
-                this->speed = youngSpeed;
-                this->hitPoints = youngHP;
-            };
-            ~YoungNinja(){};
-
-    };
+    int ninjaHit = 40;
 }
 #endif
