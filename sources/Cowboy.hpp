@@ -3,9 +3,7 @@
 #include "Character.hpp"
 #include <iostream>
 namespace ariel{
-    int cowboyHP = 110;
-    int magSize = 6;
-    int bulletHit = 10;
+
     class Cowboy : public Character{
 
         public:
@@ -24,12 +22,25 @@ namespace ariel{
             }
             bool hasboolets(){return bulletLeft>0;}
             void reload(){this->bulletLeft = magSize;}
-            void print() override {
+            std::string print() override {
+                std::string str;
                 if(this->isAlive()){
-                    std::cout <<"(C)" << name << "," << hitPoints << ",(" << location.x << "," << location.y << ")" << std::endl;
+                    str += "\n(C)";
+                    str += name;
+                    str +=",";
+                    str += hitPoints;
+                    str += ",";
+                    str += getLocation().print();
+
+                    return str;
                 }
                 else {
-                    std::cout <<"(C)(" << name << "),(" << location.x << "," << location.y << ")" << std::endl;
+                    str += "\n(C)(";
+                    str += name;
+                    str +="),";
+                    str += getLocation().print();
+
+                    return str;
                 }
             }; 
     };

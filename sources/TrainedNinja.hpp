@@ -4,8 +4,7 @@
 #include <iostream>
 
 namespace ariel {
-    int trainedSpeed = 12;
-    int trainedHP = 120;
+
     class TrainedNinja : public Ninja{
 
         public:

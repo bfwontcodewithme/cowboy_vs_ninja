@@ -20,17 +20,26 @@ namespace ariel {
                 double pow_y = std::pow(this->y - other.y, 2);
                 return std::sqrt(pow_x+pow_y);
             }
-            void print(){
-                std::cout << "(" << x << "," << y << ")" << std::endl;
+            double getX(){return this->x;}
+            double getY(){return this->y;}
+            std::string print(){
+                std::string str;
+                str = "(";
+                str += this->getX();
+                str += ",";
+                str += this->getY();
+                str= ")";
+                return str;
             };
             static Point moveTowards(Point from, Point toPoint, double distance){
                 double from_to = from.distance(toPoint);
                 if(from_to <= distance) return toPoint;
-                else {  // distance allowed not enough
-                    
-                }
-
-                return Point();
+                if(distance < 0) throw std::invalid_argument("distance can't be negative");
+             // distance allowed not enough
+                double ratio = distance / from_to;
+                double move_x = ((1-ratio)*from.x) +(ratio*toPoint.x);
+                double move_y = ((1-ratio)*from.y) +(ratio*toPoint.y);
+                return Point(move_x, move_y);
             }
 
             friend bool operator==(const Point& a, const Point& b){

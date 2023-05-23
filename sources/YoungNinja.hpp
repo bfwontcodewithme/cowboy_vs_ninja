@@ -4,8 +4,7 @@
 #include <iostream>
 
 namespace ariel{
-    int youngSpeed = 14;
-    int youngHP = 100;
+
     class YoungNinja : public Ninja{
 
         public:
