@@ -14,6 +14,9 @@ namespace ariel{
             };
             ~Cowboy(){};
             void shoot(Character* target){
+                if(!target->isAlive()) throw std::runtime_error("target already dead");
+                if(!this->isAlive()) throw std::runtime_error("dead can't shoot");
+                if(target == this) throw std::runtime_error("can shoot itself");
                 if(this->isAlive() && this->hasboolets()){
                     bulletLeft--;
                     target->hit(bulletHit);
@@ -21,7 +24,10 @@ namespace ariel{
                 else reload();
             }
             bool hasboolets(){return bulletLeft>0;}
-            void reload(){this->bulletLeft = magSize;}
+            void reload(){
+                if(this->isAlive())this->bulletLeft = magSize;
+                else throw std::runtime_error("dead cowboy can't reload");
+                }
             std::string print() override {
                 std::string str;
                 if(this->isAlive()){

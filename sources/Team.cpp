@@ -37,7 +37,7 @@ void ariel::Team::attack(Team *other){
     if(other == this) throw std::runtime_error("ca't attack itself"); //if attacking itself
     if(this->stillAlive() == 0) throw std::runtime_error("dead team can't attack"); //team dead
     if(other->stillAlive() == 0) throw std::runtime_error("target already dead"); //target already dead
-
+    
     Character *victim = chooseVictim(this->leadman, other);
     if(victim == NULL) return;
     for(const auto &fighter : group){
@@ -49,6 +49,10 @@ void ariel::Team::attack(Team *other){
                 if(ninja->distance(victim)<= 1) ninja->slash(victim);
                 else ninja->move(victim);
             }
+        }
+        if(!this->leadman->isAlive()){
+            Character *heir = chooseVictim(this->leadman, this);
+            this->leadman = heir;
         }
         if(!victim->isAlive() && other->stillAlive()>0){
             //dead in the middle of round
@@ -85,7 +89,6 @@ int ariel::Team::stillAlive(){
     int num_alive = 0;
     for(const auto fighter : group){
         if(fighter->isAlive()) num_alive++;
-        else continue;
     }
     return num_alive;
 }
