@@ -9,14 +9,14 @@
 #include <iostream>
 #include <vector>
 int const MAX_MEM = 10;
-
+int const START_MEM = 0;
 namespace ariel{
     class Team{
         
         public:
             Character* leadman;
             std::vector<Character *> group;
-            int teamSize;
+            int teamSize = START_MEM;
             Team(Character* leader);
            virtual ~Team();
             virtual void add(Character* new_member);

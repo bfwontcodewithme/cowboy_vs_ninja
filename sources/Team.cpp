@@ -11,25 +11,24 @@ ariel::Team::Team(Character* leader){
 void ariel::Team::add(Character *fighter){
     if(teamSize == MAX_MEM) throw std::runtime_error("Already full team");
     if(fighter->inTeam) throw std::runtime_error("Already belong to a team");
-    else {
-        teamSize++;
-        Cowboy *new_cowboy = dynamic_cast<Cowboy *>(fighter);
-        Ninja *new_ninja = dynamic_cast<Ninja *>(fighter);
-        if(new_cowboy){
-            group.insert(group.begin(), new_cowboy);
-            teamSize++;
-            new_cowboy->inTeam = true;
-        }
-        else if(new_ninja){
-            group.push_back(new_ninja);
-            teamSize++;
-            new_ninja->inTeam = true;
-        }
-        else{
-            throw std::runtime_error("Character not defined correctly.");
-        }
 
+    Cowboy *new_cowboy = dynamic_cast<Cowboy *>(fighter);
+    Ninja *new_ninja = dynamic_cast<Ninja *>(fighter);
+    if(new_cowboy){
+        group.insert(group.begin(), new_cowboy);
+        teamSize++;
+        new_cowboy->inTeam = true;
     }
+    else if(new_ninja){
+        group.push_back(new_ninja);
+        teamSize++;
+        new_ninja->inTeam = true;
+    }
+    else{
+        throw std::runtime_error("Character not defined correctly.");
+    }
+
+
 }
 
 void ariel::Team::attack(Team *other){
@@ -88,7 +87,7 @@ ariel::Character *ariel::Team::chooseVictim(Character *leadman, Team *other)
 int ariel::Team::stillAlive(){
     int num_alive = 0;
     for(const auto fighter : group){
-        if(fighter->isAlive()) num_alive++;
+        if(fighter->isAlive() && fighter != NULL) num_alive++;
     }
     return num_alive;
 }
