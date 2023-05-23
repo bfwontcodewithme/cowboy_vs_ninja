@@ -15,12 +15,12 @@ void ariel::Team::add(Character *fighter){
     Cowboy *new_cowboy = dynamic_cast<Cowboy *>(fighter);
     Ninja *new_ninja = dynamic_cast<Ninja *>(fighter);
     if(new_cowboy){
-        group.insert(group.begin(), new_cowboy);
+        group.insert(group.begin(), fighter);
         teamSize++;
         new_cowboy->inTeam = true;
     }
     else if(new_ninja){
-        group.push_back(new_ninja);
+        group.push_back(fighter);
         teamSize++;
         new_ninja->inTeam = true;
     }
@@ -86,7 +86,7 @@ ariel::Character *ariel::Team::chooseVictim(Character *leadman, Team *other)
 
 int ariel::Team::stillAlive(){
     int num_alive = 0;
-    for(const auto fighter : group){
+    for(const auto &fighter : group){
         if(fighter->isAlive() && fighter != NULL) num_alive++;
     }
     return num_alive;

@@ -18,7 +18,7 @@ namespace ariel{
             std::vector<Character *> group;
             int teamSize = START_MEM;
             Team(Character* leader);
-           virtual ~Team();
+            virtual ~Team();
             virtual void add(Character* new_member);
             virtual void attack(Team* other);
             int stillAlive();
